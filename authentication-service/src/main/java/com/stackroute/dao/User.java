@@ -1,11 +1,11 @@
 package com.stackroute.dao;
+
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
 
 
 @Entity
@@ -52,4 +52,7 @@ public class User {
 
     @Column(name = "lock_time")
     private Date lockTime;
+
+    @Column(name = "latest_update")
+    private String latestUpdate;
 }

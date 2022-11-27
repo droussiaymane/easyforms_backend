@@ -10,6 +10,7 @@
         <module name="authentication-service" />
         <module name="user-service" />
         <module name="eureka-server" />
+        <module name="form-service" />
         <module name="email-service" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
       <module name="config-server" options="-parameters" />
       <module name="email-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="form-service" options="-parameters" />
       <module name="product-webapp" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
