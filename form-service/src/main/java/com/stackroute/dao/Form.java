@@ -24,4 +24,6 @@ public class Form {
     @OneToMany(mappedBy = "form",cascade = CascadeType.ALL)
     private List<Element> elementList;
 
+    boolean active;
+
 }

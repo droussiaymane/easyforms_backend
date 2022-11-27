@@ -35,8 +35,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
                         userService.increaseFailedAttempts(user);
                     } else {
                         userService.lock(user);
-                        throw new LockedException("Your account has been locked due to 3 failed attempts."
-                                + " It will be unlocked after 24 hours.");
+                        throw new LockedException("Your account has been locked due to 3 failed attempts.");
                     }
                     throw new BadCredentialsException("Password incorrect");
                 }

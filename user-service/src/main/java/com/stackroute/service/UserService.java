@@ -5,10 +5,12 @@ import com.stackroute.dao.Role;
 import com.stackroute.dao.User;
 import com.stackroute.repository.RoleDao;
 import com.stackroute.repository.UserDao;
+import com.stackroute.requests.EmailRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
@@ -19,6 +21,8 @@ import java.util.Set;
 @Service
 public class UserService {
 
+    @Autowired
+    private RestTemplate restTemplate;
     @Autowired
     private UserDao userDao;
 
@@ -48,13 +52,25 @@ public class UserService {
         return userDao.save(user);
     }
 
+    public String sendCredentialsToTheUser(String email ,String password){
+        String message ="your email : "+email+" and your password : "+password;
+        EmailRequest emailRequest=new EmailRequest("Form builder app credentials",email,message);
+        try {
+            String response = restTemplate.postForObject("http://email-service/sendEmail",emailRequest,String.class);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+
+    }
     public User registerNewUser(User user) {
 
         User myuser = userDao.findByMail(user.getMail());
         if(myuser!=null){
             throw new RuntimeException("User exist already");
         }
-
+        sendCredentialsToTheUser(user.getMail(),user.getPassword());
         ModelMapper modelMapper = new ModelMapper();
         User userCreated = modelMapper.map(user, User.class);
         userCreated.setPassword(passwordEncoder.encode(user.getPassword()));

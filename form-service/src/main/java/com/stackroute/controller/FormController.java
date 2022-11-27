@@ -5,6 +5,7 @@ import com.stackroute.dao.Element;
 import com.stackroute.dao.Form;
 import com.stackroute.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
@@ -30,7 +31,13 @@ public class FormController {
         List<Element> elementList=formService.getForm(id);
         return ResponseEntity.ok(elementList);
     }
-    @GetMapping(value = "/delete")
+
+    @PutMapping(value = "/update")
+    public void updateForm(@RequestParam(required = false) int id,@RequestParam(required = false) String name,@RequestBody List<Element> elementList) {
+        formService.updateForm(id,name,elementList);
+    }
+
+    @DeleteMapping(value = "/delete")
     public void deleteForm(@RequestParam(required = false) String id) {
        formService.deleteForm(id);
     }
@@ -40,5 +47,11 @@ public class FormController {
         List<Form> formList=formService.getAllForms();
         return ResponseEntity.ok(formList);
     }
+    @GetMapping(value = "/status")
+    public void updateStatus(@RequestParam(required = false) int id) {
+        formService.updateFormStatus(id);
+    }
+
+
 
 }

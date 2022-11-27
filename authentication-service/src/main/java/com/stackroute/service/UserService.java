@@ -10,9 +10,9 @@ import java.util.Date;
 
 public interface UserService  {
 
-    public static final int MAX_FAILED_ATTEMPTS = 10;
+    public static final int MAX_FAILED_ATTEMPTS = 3;
 
-    static final long LOCK_TIME_DURATION = 1000*3600*24; // 24 hours
+    static final long LOCK_TIME_DURATION = 1000*5; // 24 hours
 
     public User getUser(String email);
     public User createUser(UserRegisterRequest user);
