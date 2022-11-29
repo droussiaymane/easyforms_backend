@@ -78,7 +78,9 @@ public class UserService {
         user.setUsername(userDetails.getUsername());
         user.setMail(userDetails.getMail());
         user.setAddress(userDetails.getAddress());
+        if(!userDetails.getPassword().equals(user.getPassword())){
             user.setPassword(getEncodedPassword(userDetails.getPassword()));
+        }
 
 
         user.setMyrole(userDetails.getMyrole());
