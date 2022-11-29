@@ -27,7 +27,7 @@ public class User {
     @Transient
     private List<String> rolesName;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "USER_ROLE",
             joinColumns = {
                     @JoinColumn(name = "USER_ID")
@@ -55,4 +55,8 @@ public class User {
 
     @Column(name = "latest_update")
     private String latestUpdate;
+
+    @Column(name = "myrole")
+    private String myrole;
+
 }

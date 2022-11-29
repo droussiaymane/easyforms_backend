@@ -36,6 +36,10 @@ public class UserService {
         return (List<User>) userDao.findAll();
     }
 
+    public User getUserByEmail(String email) {
+        return  userDao.findByMail(email);
+    }
+
     public void deleteUser(Integer id) {
         userDao.deleteUsersFromUserRole(id);
         User user = userDao.findById(id).get();
@@ -44,10 +48,52 @@ public class UserService {
 
     public User updateUser(Integer id, User userDetails) {
         User user = userDao.findById(id).get();
+        user.setMail(userDetails.getMail());
+        user.setUsername(userDetails.getUsername());
+        user.setAddress(userDetails.getAddress());
+        if(!userDetails.getPassword().equals("")){
+            user.setPassword(getEncodedPassword(userDetails.getPassword()));
+
+        }
+        user.setMyrole(userDetails.getMyrole());
+        Set<Role> roles=new HashSet<>();
+
+        if(userDetails.getMyrole().equals("ROLE_ADMIN")){
+            Role role=roleDao.findById("ROLE_ADMIN").get();
+            roles.add(role);
+        }
+        else{
+            Role role=roleDao.findById("ROLE_UserRead").get();
+            roles.add(role);
+        }
+
+        user.setRole(roles);
+        user.setLatestUpdate(String.valueOf(new Date()));
+        return userDao.save(user);
+    }
+
+    public User updateUserByEmail(String email, User userDetails) {
+        User user = userDao.findByMail(email);
+        user.setName(userDetails.getName());
         user.setUsername(userDetails.getUsername());
         user.setMail(userDetails.getMail());
         user.setAddress(userDetails.getAddress());
-        user.setPassword(getEncodedPassword(userDetails.getPassword()));
+            user.setPassword(getEncodedPassword(userDetails.getPassword()));
+
+
+        user.setMyrole(userDetails.getMyrole());
+        Set<Role> roles=new HashSet<>();
+
+        if(userDetails.getMyrole().equals("ROLE_ADMIN")){
+            Role role=roleDao.findById("ROLE_ADMIN").get();
+            roles.add(role);
+        }
+        else{
+            Role role=roleDao.findById("ROLE_UserRead").get();
+            roles.add(role);
+        }
+
+        user.setRole(roles);
         user.setLatestUpdate(String.valueOf(new Date()));
         return userDao.save(user);
     }
@@ -70,19 +116,25 @@ public class UserService {
         if(myuser!=null){
             throw new RuntimeException("User exist already");
         }
-        sendCredentialsToTheUser(user.getMail(),user.getPassword());
+       sendCredentialsToTheUser(user.getMail(),user.getPassword());
         ModelMapper modelMapper = new ModelMapper();
         User userCreated = modelMapper.map(user, User.class);
         userCreated.setPassword(passwordEncoder.encode(user.getPassword()));
         userCreated.setAccountNonLocked(true);
         userCreated.setRegistrationTime(String.valueOf(new Date()));
         userCreated.setActive(true);
-        List<String> rolesget=user.getRolesName();
+        userCreated.setMyrole(user.getMyrole());
         Set<Role> roles=new HashSet<>();
-        rolesget.stream().forEach(s -> {
-            Role role=roleDao.findById(s).get();
+
+        if(user.getMyrole().equals("ROLE_ADMIN")){
+            Role role=roleDao.findById("ROLE_ADMIN").get();
             roles.add(role);
-        });
+        }
+        else{
+            Role role=roleDao.findById("ROLE_UserRead").get();
+            roles.add(role);
+        }
+
         userCreated.setRole(roles);
         User userRegistred=userDao.save(userCreated);
         // check the type of the user
@@ -119,7 +171,7 @@ public class UserService {
         Role adminRole = new Role();
         adminRole.setRoleName("ROLE_ADMIN");
         adminRole.setRoleDescription("Admin role");
-
+        Role roleAdmin=roleDao.save(adminRole);
         Role userReadRole = new Role();
         userReadRole.setRoleName("ROLE_UserRead");
         userReadRole.setRoleDescription("Read Role for User");
@@ -143,13 +195,14 @@ public class UserService {
             adminUser.setMail("test@gmail.com");
             adminUser.setName("admin");
             adminUser.setAddress("india");
+            adminUser.setMyrole("ROLE_ADMIN");
             adminUser.setAccountNonLocked(true);
             adminUser.setActive(true);
             //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             //String date = dateFormat.format(new Date());
             adminUser.setRegistrationTime(String.valueOf(new Date()));
             Set<Role> adminRoles = new HashSet<>();
-            adminRoles.add(adminRole);
+            adminRoles.add(roleAdmin);
             adminUser.setRole(adminRoles);
             userDao.save(adminUser);
 

@@ -38,12 +38,18 @@ public class UserController {
     @GetMapping({"/getUsers"})
     public List<User> getUsers() { return userService.getUsers(); }
 
+    @GetMapping({"/getUser"})
+    public User getUserByEmail(@RequestParam String email) { return userService.getUserByEmail(email); }
+
     @DeleteMapping({"/deleteUser/{userName}"})
     public void deleteUser(@PathVariable(value="userName") Integer userName) { userService.deleteUser(userName); }
 
     // Update User Details
     @PutMapping({"/updateUser/{userName}"})
     public User updateUser(@PathVariable(value="userName") Integer userName, @RequestBody User userDetails) { return userService.updateUser(userName, userDetails); }
+
+    @PutMapping({"/updateUserByEmail/{email}"})
+    public User updateUserById(@PathVariable(value="email") String email, @RequestBody User userDetails) { return userService.updateUserByEmail(email, userDetails); }
 
     @GetMapping({"/getUserRole/{userName}"})
     public Set<Role> getUserRoleByUsername(@PathVariable(value="userName") Integer userName) {
