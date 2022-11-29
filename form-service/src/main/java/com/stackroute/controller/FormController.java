@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/form")
-@CrossOrigin("http://localhost:3000")
 public class FormController {
 
     @Autowired
