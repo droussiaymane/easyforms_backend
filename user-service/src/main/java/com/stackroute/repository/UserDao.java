@@ -15,6 +15,6 @@ public interface UserDao extends CrudRepository<User, Integer> {
     @Query(value = "DELETE FROM user_role WHERE user_id=?1", nativeQuery = true)
     void deleteUsersFromUserRole(Integer id);
 
-    public User findByMail(String email);
+     User findByMail(String email);
 
 }

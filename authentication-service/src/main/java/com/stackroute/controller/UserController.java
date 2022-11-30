@@ -2,7 +2,7 @@ package com.stackroute.controller;
 
 
 
-import com.stackroute.dao.User;
+
 import com.stackroute.message.ResponseMessage;
 import com.stackroute.message.TokenResponse;
 import com.stackroute.requests.UserRegisterRequest;
@@ -24,7 +24,7 @@ public class UserController {
     public ResponseEntity<ResponseMessage> createStudent(@RequestBody UserRegisterRequest user) {
         String message ="";
         try{
-            User userCreated = userService.createUser(user);
+
             message="User is created successfully";
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(message));
         }

@@ -7,19 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="config-server" />
         <module name="authentication-service" />
-        <module name="gateway-client" />
-        <module name="user-service" />
-        <module name="eureka-server" />
-        <module name="form-service" />
         <module name="email-service" />
+        <module name="api-gateway" />
+        <module name="user-service" />
+        <module name="form-service" />
+        <module name="eureka-server" />
+        <module name="product-webapp" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="api-gateway" target="11" />
-      <module name="config-server" target="11" />
-      <module name="product-webapp" target="11" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -29,7 +26,6 @@
       <module name="email-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="form-service" options="-parameters" />
-      <module name="gateway-client" options="-parameters" />
       <module name="product-webapp" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

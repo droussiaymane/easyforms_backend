@@ -15,21 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class UserServiceImpl implements UserService{
-
-
-
-
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-
-
 
     @Override
     public void updateFailedAttempts(int failAttempts, String email){
@@ -85,6 +79,14 @@ public class UserServiceImpl implements UserService{
         TokenResponse tokenResponse=new TokenResponse();
         tokenResponse.setId(user.getId());
         tokenResponse.setToken(token);
+
+        AtomicReference<String> roles= new AtomicReference<>("");
+
+        user.getRole().stream().forEach(grantedAuthority -> {
+            String role=grantedAuthority.getRoleName();
+            roles.set(role + "," + roles);
+        });
+        tokenResponse.setRole(roles.get());
         return tokenResponse;
     }
 

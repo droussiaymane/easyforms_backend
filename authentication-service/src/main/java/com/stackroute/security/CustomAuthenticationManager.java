@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Arrays;
+
 import java.util.stream.Collectors;
 
 public class CustomAuthenticationManager implements AuthenticationManager {

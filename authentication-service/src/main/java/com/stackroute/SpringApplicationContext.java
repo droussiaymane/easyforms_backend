@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -20,9 +19,10 @@ public class SpringApplicationContext implements ApplicationContextAware {
     }
 
     @Override
-    public void setApplicationContext(org.springframework.context.ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         CONTEXT = applicationContext;
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -34,4 +34,5 @@ public class SpringApplicationContext implements ApplicationContextAware {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
